@@ -244,7 +244,6 @@
             highScenario: [22, 28, 38, 50, 65, 82, 100, 115, 130]
         };
 
-        let currentChart = null;
         let currentView = 'historical';
 
         function createChart(labels, datasets) {
@@ -398,24 +397,22 @@
             
             // Combine historical and projection data
             const combinedLabels = ['1900', '1940', '1980', '2020', '2040', '2060', '2080', '2100'];
-            const historicalCombined = [0, 4, 12, 20, null, null, null, null];
-            const lowProjection = [null, null, null, 22, 30, 43, 60, 80];
-            const highProjection = [null, null, null, 22, 38, 65, 100, 130];
             
+            // Create datasets with proper null handling - only show data where it exists
             createChart(combinedLabels, [
                 {
                     label: 'Historical Data',
-                    data: historicalCombined.map(v => v === null ? 20 : v),
+                    data: [0, 4, 12, 20, 20, 20, 20, 20],  // Historical ends at 2020, then flat
                     color: '#2a5298'
                 },
                 {
                     label: 'Low Emissions Projection',
-                    data: lowProjection.map((v, i) => v === null ? historicalCombined[i] || 0 : v),
+                    data: [0, 4, 12, 22, 30, 43, 60, 80],  // Start from historical, then project
                     color: '#667eea'
                 },
                 {
                     label: 'High Emissions Projection',
-                    data: highProjection.map((v, i) => v === null ? historicalCombined[i] || 0 : v),
+                    data: [0, 4, 12, 22, 38, 65, 100, 130],  // Start from historical, then project
                     color: '#e74c3c'
                 }
             ]);
